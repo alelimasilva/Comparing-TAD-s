@@ -3,36 +3,41 @@
 #include<stdlib.h>
 
 void pesquisar(Registro *x, Apontador p){
-    if (p == NULL){
+    if (p == NULL){ //condição de saida da recursao caso nao seja encontrado o valor
         printf("Erro: Registro nao esta presente na arvore\n");
         return;
     }
-    if (x->chave < p->registro.chave){
-        pesquisar(x, p->esq);
-    }else if (x->chave > p->registro.chave)
-        pesquisar(x, p->dir);
-    else{
-    *x = p->registro;
+    if (x->chave < p->registro.chave){ //analisa se a chave do registro a ser procurado é menor do que a chave do no
+        pesquisar(x, p->esq); // procura novamente no nó filho a esquerda
+    }
+    else if (x->chave > p->registro.chave){  //analisa se a chave do registro a ser procurado é maior do que a chave do no
+        pesquisar(x, p->dir); // procura novamente no nó filho a direita
+    }
+    else{// se o valor for encontrado
+        printf("Registro encontrado na arvore\n");
+        *x = p->registro; // o registro x recebe o registro da nó encontrado
     }
 }
 
 void inserir(Registro x, Apontador *p){
-    if (*p == NULL) {
-        *p = (Apontador)malloc(sizeof(No));
-        (*p)->registro = x; (*p)->esq = NULL; (*p)->dir = NULL;
+    if (*p == NULL){ // so insere se o que p aponta for NULL
+        *p = (Apontador)malloc(sizeof(No)); // p passa a apontar para um no
+        (*p)->registro = x; (*p)->esq = NULL; (*p)->dir = NULL; // adiciona os valores e o esq e dir dele se tornam NULL
         return;
     }
-    if (x.chave < (*p)->registro.chave){
-        inserir(x, &(*p)->esq); return;
-    } else if (x.chave > (*p)->registro.chave)
-        inserir(x, &(*p)->dir);
-    else {
+    if (x.chave < (*p)->registro.chave){ //analisa se a chave do registro a ser procurado é menor do que a chave do no
+        inserir(x, &(*p)->esq); return; // entao tenta inserir no nó a esq 
+    }
+    else if (x.chave > (*p)->registro.chave){ //analisa se a chave do registro a ser procurado é maior do que a chave do no
+        inserir(x, &(*p)->dir); // entao tenta inserir no nó a esq 
+    }
+    else{ //caso ele nao seja nem maior ou menor ele ja existe na arvore 
         printf("Erro : Registro ja existe na arvore\n");
     }
 }
 
-void inicializar(Apontador *dicionario){
-    *dicionario = NULL;
+void inicializar(Apontador *arvore){
+    *arvore = NULL;
 }
 
 void retirar(Registro x, Apontador *p){

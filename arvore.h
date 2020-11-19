@@ -6,7 +6,7 @@ typedef struct No {
 Registro registro;
 Apontador esq, dir;
 } No;
-typedef Apontador Dicionario;
+typedef Apontador Arvore;
 
 void pesquisar(Registro *x, Apontador p);
 void inserir(Registro x, Apontador *p);
