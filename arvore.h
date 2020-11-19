@@ -1,11 +1,11 @@
 typedef struct Registro{
     int chave;
 } Registro;
-typedef struct No * Apontador;
-typedef struct No {
+typedef struct Celula * Apontador;
+typedef struct Celula {
 Registro registro;
 Apontador esq, dir;
-} No;
+} Celula;
 typedef Apontador Arvore;
 
 void pesquisar(Registro *x, Apontador p);
