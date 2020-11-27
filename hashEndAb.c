@@ -130,4 +130,4 @@ int buscaI_hash(Hash* tabela, int chave, dicionario* d){ 						  //função para
 			return 1; 									 						  //retornando êxito na busca
 	}
 	return 0; 																	  //caso faça o loop até que o tamanho da tabela e não consiga encontrar a chave, retorna que falhou
-}
+} 
