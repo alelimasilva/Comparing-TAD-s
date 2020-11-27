@@ -31,3 +31,4 @@ int calculaPos(int chave, int tam); 								//função que faz o calculo da posi
 int tratamentoDuploHash(int hash1, int chave, int tam, int indice); //função para tratamento de colisão através de um duplo HASH (2ª função de dispersão)
 int busca_hash(Hash* tabela, int chave, dicionario* d); 			//função para pesquisar na tabela HASH através da chave
 int buscaI_hash(Hash* tabela, int chave, dicionario* d); 			//função para pesquisar na tabela HASH através da chave e descobrir se pode adicionar na tabela
+ 
