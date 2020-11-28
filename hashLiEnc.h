@@ -7,17 +7,17 @@
 
 #define TAM 100 //constante definida para determinar o tamanho da tabela HASH
 
-struct reg {
+struct registro {
 	int chave; 
-	struct reg *prox; 
+	struct registro *prox; 
 };
-typedef struct reg No;
+typedef struct registro No; // Nó da hash
 
 void limpaTela();//Limpa o terminal para melhorar a aparencia do programa
 void inicializa_hash(No **hash); // inicializa a hash
 int calcula_posicao(int chave); // calcula a posição da hash
 void insere_hash(int chave, No **hash); // verifica se pode ser inserido, se sim insere a chave na hash
 void imprime_hash(No **hash); // imprime toda a hash
-void apaga_hash(int chave, No **hash); // apaga um dado da hash
+void remove_hash(int chave, No **hash); // apaga um dado da hash
 void imprime_listaenc(int pos, No **hash); // percorre uma lista encadeada em uma posição da hash e a imprime
 int buscalista(int chave, No **hash); // busca um dado em uma lista encadeada
