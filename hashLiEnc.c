@@ -10,7 +10,7 @@ void limpaTela(){ 		 //Limpa o terminal para melhorar a aparencia do programa
 	#endif 
 }	
 
-void inicializa_hash(No **hash){ // incializa o hash
+void inicializa_hash(Celula **hash){ // incializa o hash
 	for(int i=0; i<TAM; i++) hash[i]=NULL;		 
 }
 
@@ -18,7 +18,7 @@ int calcula_posicao(int chave){ // calcula a posição da hash
 	return chave % TAM;
 }
 
-void insere_hash(int chave, No **hash){
+void insere_hash(int chave, Celula **hash){
 	int posicao = calcula_posicao(chave); // calcula a posição para ser inserido
 	if (hash[posicao]!=NULL) { // se ocorreu colisao
 		if (buscalista(chave,hash)){ // verificando se a chave ja existe
@@ -27,9 +27,9 @@ void insere_hash(int chave, No **hash){
 		}
 	}	
     // se nao existir ele é inserido
-    No **lista = &hash[posicao]; 
+    Celula **lista = &hash[posicao]; 
 	if (*lista == NULL){
-		*lista = (No *) malloc(sizeof(No)); // alocando memoria para a lista
+		*lista = (Celula *) malloc(sizeof(Celula)); // alocando memoria para a lista
   		if (*lista == NULL){
 			printf("\nErro alocacao memoria!"); // caso aconteca algum erro na alocacao 
 			exit(1); 
@@ -40,9 +40,9 @@ void insere_hash(int chave, No **hash){
  	}
 	else{ // Se ocorreu colisao
 		printf("-> Colisao  hash[%d]",posicao);
-	    No *guarda= hash[posicao]; // guardando posicao inicial ponteiro
+	    Celula *guarda= hash[posicao]; // guardando posicao inicial ponteiro
 		while ((*lista)->prox != NULL) *lista=(*lista)->prox; // Caminha para fim da lista caso contenha mais de 2 itens	
-		(*lista)->prox=(No *) malloc(sizeof(No)); // alocando memoria para o proximo elemento
+		(*lista)->prox=(Celula *) malloc(sizeof(Celula)); // alocando memoria para o proximo elemento
 		if ((*lista)->prox == NULL) {
 			printf("\nErro na alocacao de memoria."); // caso aconteca algum erro na alocacao 
 			exit(1);
@@ -54,7 +54,7 @@ void insere_hash(int chave, No **hash){
 	}
 }
 
-void imprime_hash(No **hash){ // Imprime tabela hash
+void imprime_hash(Celula **hash){ // Imprime tabela hash
     printf("\n");
 	for (int i=0; i<TAM; i++){ // percorre toda as posiçoes da hash
 		printf("\nhash[%d] ->",i); // imprime a posição da hash
@@ -62,8 +62,8 @@ void imprime_hash(No **hash){ // Imprime tabela hash
 	}
 }
 
-void imprime_listaenc(int posicao, No **hash){ // Percorre lista de uma posiçao e a imprime
-	No *lista = hash[posicao];
+void imprime_listaenc(int posicao, Celula **hash){ // Percorre lista de uma posiçao e a imprime
+	Celula *lista = hash[posicao];
 	while (lista != NULL){  // enquanto nao chegar no fim da lista
 		printf(" %d ->",lista->chave); // imprime um elemento da lista
 		lista = lista->prox; // vai para o proximo elemento da lista
@@ -71,9 +71,9 @@ void imprime_listaenc(int posicao, No **hash){ // Percorre lista de uma posiçao
 	printf(" NULL");
 } 
 
-int buscalista(int chave, No **hash){
+int buscalista(int chave, Celula **hash){
 	int posicao = calcula_posicao(chave);
-	No *lista = hash[posicao];
+	Celula *lista = hash[posicao];
 	while (lista != NULL){ // enquanto nao chegar no fim da lista
 		if (chave == lista->chave) return 1; // Se encontrou retorna 1
 		lista = lista->prox; // lista recebe o proximo elemento da lista
@@ -81,17 +81,17 @@ int buscalista(int chave, No **hash){
 	return 0;  // Se nao encontrou retorna 0
 }
 
-void remove_hash(int chave, No **hash) { 
+void remove_hash(int chave, Celula **hash) { 
  int posicao = calcula_posicao(chave);
  if (!buscalista(chave,hash)) { // verificando se chave pertence a tabela
  	puts("\nchave nao encontrado");
 	return;
  }
 	
- No **lista = &hash[posicao]; // apontando os ponteiros para os valores que serao utilizados
- No *ant = *lista;
- No *prox = (*lista)->prox;
- No *guarda = hash[posicao]; // guardando posicao do ponteiro 
+ Celula **lista = &hash[posicao]; // apontando os ponteiros para os valores que serao utilizados
+ Celula *ant = *lista;
+ Celula *prox = (*lista)->prox;
+ Celula *guarda = hash[posicao]; // guardando posicao do ponteiro 
 
  while (*lista!=NULL) { // laço percorre lista		
 	if ((*lista)->chave == chave) { // Se encontrou a chave		
