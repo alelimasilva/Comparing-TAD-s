@@ -36,7 +36,7 @@ void inserir(Registro x, Apontador *p){
     }
 }
 
-void inicializar(Apontador *arvore){
+void inicializar(Apontador *arvore){ // inicializar a arvore
     *arvore = NULL;
 }
 
