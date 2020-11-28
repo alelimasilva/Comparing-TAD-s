@@ -9,7 +9,7 @@ int x, y; 					   //variaveis de suporte para os loops do menu
 
 
 
-do{
+do{ // inicio do loop do menu
 	limpaTela();
 	printf("|1 adicionar valores a HASH\n"
 		   "|2 buscar uma chave na HASH\n"
@@ -62,7 +62,7 @@ do{
 		default:			
 			break;
 	}
-}while(x != 0);
+}while(x != 0); 
 
 free(tabela); //liberando espaço de memória alocado para tabela
 free(d);      //liberando espaço de memória alocado para d
