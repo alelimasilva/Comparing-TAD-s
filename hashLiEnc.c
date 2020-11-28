@@ -10,7 +10,7 @@ void limpaTela(){ 		 //Limpa o terminal para melhorar a aparencia do programa
 	#endif 
 }	
 
-void inicializa_hash(No **hash){
+void inicializa_hash(No **hash){ // incializa o hash
 	for(int i=0; i<TAM; i++) hash[i]=NULL;		 
 }
 
@@ -29,22 +29,22 @@ void insere_hash(int chave, No **hash){
     // se nao existir ele é inserido
     No **lista = &hash[posicao]; 
 	if (*lista == NULL){
-		*lista = (No *) malloc(sizeof(No));
+		*lista = (No *) malloc(sizeof(No)); // alocando memoria para a lista
   		if (*lista == NULL){
-			printf("\nErro alocacao memoria!");
-			exit(1);
+			printf("\nErro alocacao memoria!"); // caso aconteca algum erro na alocacao 
+			exit(1); 
   		}
   		(*lista)->chave=chave;
   		(*lista)->prox=NULL;	
-  		printf("-> Inserido hash[%d]",posicao);
+  		printf("-> Inserido hash[%d]",posicao); 
  	}
 	else{ // Se ocorreu colisao
 		printf("-> Colisao  hash[%d]",posicao);
 	    No *guarda= hash[posicao]; // guardando posicao inicial ponteiro
 		while ((*lista)->prox != NULL) *lista=(*lista)->prox; // Caminha para fim da lista caso contenha mais de 2 itens	
-		(*lista)->prox=(No *) malloc(sizeof(No));
+		(*lista)->prox=(No *) malloc(sizeof(No)); // alocando memoria para o proximo elemento
 		if ((*lista)->prox == NULL) {
-			printf("\nErro na alocacao de memoria.");
+			printf("\nErro na alocacao de memoria."); // caso aconteca algum erro na alocacao 
 			exit(1);
   		}	
 		*lista=(*lista)->prox;
@@ -78,17 +78,17 @@ int buscalista(int chave, No **hash){
 		if (chave == lista->chave) return 1; // Se encontrou retorna 1
 		lista = lista->prox; // lista recebe o proximo elemento da lista
 	}
-	return 0;  // Se nao encontrou retorna 1
+	return 0;  // Se nao encontrou retorna 0
 }
 
-void apaga_hash(int chave, No **hash) { 
+void remove_hash(int chave, No **hash) { 
  int posicao = calcula_posicao(chave);
  if (!buscalista(chave,hash)) { // verificando se chave pertence a tabela
  	puts("\nchave nao encontrado");
 	return;
  }
 	
- No **lista = &hash[posicao];
+ No **lista = &hash[posicao]; // apontando os ponteiros para os valores que serao utilizados
  No *ant = *lista;
  No *prox = (*lista)->prox;
  No *guarda = hash[posicao]; // guardando posicao do ponteiro 
