@@ -1,15 +1,14 @@
-typedef struct Registro{
-    int chave;
-} Registro;
+#define TAM 10000
+
 typedef struct Celula * Apontador;
 typedef struct Celula {
-Registro registro;
 Apontador esq, dir;
+int chave;
 } Celula;
 typedef Apontador Arvore;
 
-void pesquisar(Registro *x, Apontador p);
-void inserir(Registro x, Apontador *p);
+void pesquisar(int chave, Apontador p);
+void inserir(int chave, Apontador *p);
 void inicializar(Apontador *arvore);
-void retirar(Registro x, Apontador *p);
+void retirar(int chave, Apontador *p);
 void antecessor(Apontador q, Apontador *r);
