@@ -52,12 +52,10 @@ void retirar(int chave, Apontador *p){ // funcao para retirar um registro da arv
         aux = *p;
         *p = (*p)->esq;
         free(aux);
-        printf("deu certo\n");
     }else if ((*p)->esq == NULL){ // verificando se a esquerda do ponteiro esta vazia, se estiver, o auxiliar recebe *p e *p aponta para a direita do ponteiro, liberando a memoria do auxiliar apos o processo 
         aux = *p;
         *p = (*p)->dir;
         free(aux);
-        printf("deu certo\n");
     }
     else{
         antecessor(*p, &(*p)->esq); // funcao chamada para organizar a arvore apos a retirada do registro
