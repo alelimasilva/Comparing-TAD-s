@@ -4,18 +4,18 @@
 
 void pesquisar(int chave, Apontador p){
     if (p == NULL){ //condição de saida da recursao caso nao seja encontrado o valor
-        printf("Erro: Registro nao esta presente na arvore\n");
+        printf("Erro: Chave nao esta presente na arvore\n");
         return;
     }
-    if (chave < p->chave){ //analisa se a chave do registro a ser procurado é menor do que a chave do no
+    if (chave < p->chave){ //analisa se a chave a ser procurada é menor do que a chave do no
         pesquisar(chave, p->esq); // procura novamente no nó filho a esquerda
     }
-    else if (chave > p->chave){  //analisa se a chave do registro a ser procurado é maior do que a chave do no
+    else if (chave > p->chave){  //analisa se a chave a ser procurada é maior do que a chave do no
         pesquisar(chave, p->dir); // procura novamente no nó filho a direita
     }
     else{// se o valor for encontrado
-        printf("Registro encontrado na arvore\n");
-        //*x = p->chave; // o registro x recebe o registro da nó encontrado
+        printf("Chave encontrada na arvore\n");
+        //*x = p->chave; 
     }
 }
 
@@ -25,14 +25,14 @@ void inserir(int chave, Apontador *p){
         (*p)->chave = chave; (*p)->esq = NULL; (*p)->dir = NULL; // adiciona os valores e o esq e dir dele se tornam NULL
         return;
     }
-    if (chave < (*p)->chave){ //analisa se a chave do registro a ser procurado é menor do que a chave do no
+    if (chave < (*p)->chave){ //analisa se a chave a ser procurada é menor do que a chave do no
         inserir(chave, &(*p)->esq); return; // entao tenta inserir no nó a esq 
     }
-    else if (chave > (*p)->chave){ //analisa se a chave do registro a ser procurado é maior do que a chave do no
+    else if (chave > (*p)->chave){ //analisa se a chave a ser procurada é maior do que a chave do no
         inserir(chave, &(*p)->dir); // entao tenta inserir no nó a esq 
     }
     else{ //caso ele nao seja nem maior ou menor ele ja existe na arvore 
-        printf("Erro : Registro ja existe na arvore\n");
+        printf("Erro : Chave ja existe na arvore\n");
     }
 }
 
@@ -40,25 +40,27 @@ void inicializar(Apontador *arvore){ // inicializar a arvore
     *arvore = NULL;
 }
 
-void retirar(int chave, Apontador *p){ // funcao para retirar um registro da arvore
+void retirar(int chave, Apontador *p){ // funcao para retirar uma chave da arvore
     Apontador aux; // ponteiro auxiliar utilizado para receber o valor o ponteiro *p passado na funcao
-    if (*p == NULL) { // checando se o registro esta presente na arvore
-        printf("Erro : Registro nao esta na arvore\n");
-    } else if (chave < (*p)->chave){ // caso a chave seja menor que o registro a funcao é chamada novamente com os valores de x e com o ponteiro *p apontando pra sua esquerda
+    if (*p == NULL) { // checando se a chave esta presente na arvore
+        printf("Erro : Chave nao esta na arvore\n");
+    } else if (chave < (*p)->chave){ // caso a chave seja menor que a chave a funcao é chamada novamente com os valores de x e com o ponteiro *p apontando pra sua esquerda
         retirar(chave, &(*p)->esq); return;
-    } else if (chave > (*p)->chave){ // caso a chave seja maior que o registro a funcao é chamada novamente com os valores de x e com o ponteiro *p apontando pra sua direita
+    } else if (chave > (*p)->chave){ // caso a chave seja maior que a chave a funcao é chamada novamente com os valores de x e com o ponteiro *p apontando pra sua direita
         retirar(chave, &(*p)->dir); return;
     } else if ((*p)->dir == NULL){ // verificando se a direita do ponteiro esta vazia, se estiver, o auxiliar recebe *p e *p aponta para a esquerda do ponteiro, liberando a memoria do auxiliar apos o processo 
         aux = *p;
         *p = (*p)->esq;
         free(aux);
+        printf("deu certo\n");
     }else if ((*p)->esq == NULL){ // verificando se a esquerda do ponteiro esta vazia, se estiver, o auxiliar recebe *p e *p aponta para a direita do ponteiro, liberando a memoria do auxiliar apos o processo 
         aux = *p;
         *p = (*p)->dir;
         free(aux);
+        printf("deu certo\n");
     }
     else{
-        antecessor(*p, &(*p)->esq); // funcao chamada para organizar a arvore apos a retirada do registro
+        antecessor(*p, &(*p)->esq); // funcao chamada para organizar a arvore apos a retirada da chave
     }
 }
 
@@ -73,5 +75,3 @@ void antecessor(Apontador q, Apontador *r){ // funcao que recebe 2 ponteiros e v
         free(q);
     }
 }
-
-
