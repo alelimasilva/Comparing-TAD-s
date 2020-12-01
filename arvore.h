@@ -1,5 +1,3 @@
-#define TAM 10000
-
 typedef struct Celula * Apontador;
 typedef struct Celula {
 Apontador esq, dir;
