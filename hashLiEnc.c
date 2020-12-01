@@ -54,23 +54,6 @@ void insere_hash(unsigned int chave, No **hash, int tam){
 	}
 }
 
-void imprime_hash(No **hash, int tam){ // Imprime tabela hash
-    printf("\n");
-	for (int i=0; i<tam; i++){ // percorre toda as posiçoes da hash
-		printf("\nhash[%d] ->",i); // imprime a posição da hash
-		imprime_listaenc(i,hash); // imprime a lista da posição
-	}
-}
-
-void imprime_listaenc(int posicao, No **hash){ // Percorre lista de uma posiçao e a imprime
-	No *lista = hash[posicao];
-	while (lista != NULL){  // enquanto nao chegar no fim da lista
-		printf(" %d ->",lista->chave); // imprime um elemento da lista
-		lista = lista->prox; // vai para o proximo elemento da lista
-	}
-	printf(" NULL");
-} 
-
 int buscalista(unsigned int chave, No **hash, int tam){
 	int posicao = calcula_posicao(chave,tam);
 	No *lista = hash[posicao];
