@@ -59,25 +59,29 @@ int main(){
 			printf("oi");
 		}
 		if(escolha2 == 3){
+			//gettimeofday(&utime, NULL);
 			//tInicio_I = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
     		for(int i=0;i<tam;i++){
         		inserehash(i, hash, tam);
    			}
 			//gettimeofday(&utime, NULL);
 			//tFim_I = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
-			//---------------------------------------------------------
+
+			//gettimeofday(&utime, NULL);
 			//tInicio_B = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
 			if(buscalista(50, hash, tam) == 1) printf("Valor encontrado!\n");
 			else printf("Valor nao encontrado!\n");
 			//gettimeofday(&utime, NULL);
 			//tFim_B = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
-			//---------------------------------------------------------
+
+			//gettimeofday(&utime, NULL);
 			//tInicio_R = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
     		for(int i=0;i<tam;i++){
         		apaga_hash(i, hash, tam);
    			}
 			//gettimeofday(&utime, NULL);
 			//tFim_R = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
+
 			//printf("%.3f - Tempo percorrido para insercao.\n", tFim_I - tInicio_I);
 			//printf("%.3f - Tempo percorrido para busca.\n", tFim_B - tInicio_B);
 			//printf("%.3f - Tempo percorrido para remocao.\n", tFim_R - tInicio_R);
