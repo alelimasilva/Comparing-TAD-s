@@ -8,18 +8,18 @@ void limpaTela(){ 		 //Limpa o terminal para melhorar a aparencia do programa
 	#endif 
 }	
 
-Hash* inicializa_hash(int tam){ 				//função para inicializar uma tabela HASH
-	Hash* tabela = (Hash*)malloc(sizeof(Hash)); //alocando espaço de memória para a tabela
+Hash* inicializa_hash(int tam){ 				      //função para inicializar uma tabela HASH
+	Hash* tabela = (Hash*)malloc(sizeof(Hash) * tam); //alocando espaço de memória para a tabela
 	
 	if(tabela != NULL){ 													//se a tabela não estiver inicializada em NULL
 		tabela->tam_tabela = tam; 											//aqui ela recebe o tamanho passado por parâmetro
-		tabela->celula = (dicionario**)malloc((sizeof(dicionario*) * TAM)); //aqui será inicializado o espaço de memória para cada célula, ou seja, cada item do dicionário
+		tabela->celula = (dicionario**)malloc((sizeof(dicionario*) * tam)); //aqui será inicializado o espaço de memória para cada célula, ou seja, cada item do dicionário
 		if(tabela->celula == NULL){ 										//se estiver vazio, a célula será desalocada, esse caso se dá por correção de erro na inserção de algum valor
 			free(tabela); 													//desalocando a memória
 			return NULL; 													//retornando NULL
 		}
 		tabela->quantidade = 0; 											//setando a quantidade de itens como 0, pois a tabela está sendo inicializada
-	for(int i = 0; i < TAM; i++){
+	for(int i = 0; i < tam; i++){
 		tabela->celula[i] = NULL; 											//inicializando a tabela com NULL em todas as células
 	}
 	}
@@ -39,12 +39,13 @@ void exclui_hash(Hash* tabela){ 					 //função para excluir uma tabela HASH
 	printf("Tabela Hash excluida!\n");
 }
 
-int calculaPos(int chave, int tam){ //função que faz o calculo da posição em que a chave se encontrara na tabela HASH
-	return chave % tam; 			//a posição se dará de acordo com o valor do resto da divisão da chave pelo tamanho da tabela
-}
+int calculaPos(int chave, int tam){   //função que faz o calculo da posição em que a chave se encontrara na tabela HASH
+	return (chave & 0x7FFFFFFF) % tam;//a posição se dará de acordo com o valor do resto da divisão da chave pelo tamanho da tabela
+}									  //a comparação bit-a-bit serve pra eliminar possíveis overflows
 
 int tratamentoDuploHash(int hash1, int chave, int indice, int tam){ //função para tratamento de colisão através de um duplo HASH
-	return ((hash1 + indice) + 11) % tam; 						//retornando o valor da posição da chave 
+	int hash2 = calculaPos(chave, tam);
+	return ((hash1 + indice) & 0x7FFFFFFF) % tam; 			        //retornando o valor da posição da chave, a comparação bit-a-bit serve pra eliminar possíveis overflows
 }
 
 int insere_hash(Hash* tabela, dicionario* d, int chave){ //função para inserir chaves na tabela HASH
@@ -165,7 +166,7 @@ void retira_hash(Hash* tabela, int chave, dicionario* d){							  //função par
 		for(int i = 0; i < tabela->tam_tabela; i++){
 			novaPosicao = tratamentoDuploHash(posicao, chave, i, tabela->tam_tabela); //novaPosicao recebe o retorno da segunda função de tratamento de colisão tratamentoDuploHash
 			if(tabela->celula[novaPosicao]->chave == chave){						  //se a chave pesquisada for igual a chave na posição, ela será removida					
-				free(tabela->celula[novaPosicao]);									  //desalocando a memória utilizada para armazenar a chave
+				tabela->celula[novaPosicao] = NULL;									  //desalocando a memória utilizada para armazenar a chave
 				tabela->quantidade--;												  //decrementando a quantidade de itens na tabela
 				printf("\n");
 				printf("|CHAVE REMOVIDA!\n");
