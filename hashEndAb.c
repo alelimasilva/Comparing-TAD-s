@@ -1,5 +1,3 @@
-#include<stdio.h>  //biblioteca de inputs e outputs
-#include<stdlib.h> //biblioteca para utilização do malloc
 #include "hashEndAb.h"  //incluindo arquivo cabeçalho com declarações de funções e estruturas de dados
 
 void limpaTela(){ 		 //Limpa o terminal para melhorar a aparencia do programa
@@ -15,13 +13,13 @@ Hash* inicializa_hash(int tam){ 				//função para inicializar uma tabela HASH
 	
 	if(tabela != NULL){ 													//se a tabela não estiver inicializada em NULL
 		tabela->tam_tabela = tam; 											//aqui ela recebe o tamanho passado por parâmetro
-		tabela->celula = (dicionario**)malloc((sizeof(dicionario*) * tam)); //aqui será inicializado o espaço de memória para cada célula, ou seja, cada item do dicionário
+		tabela->celula = (dicionario**)malloc((sizeof(dicionario*) * TAM)); //aqui será inicializado o espaço de memória para cada célula, ou seja, cada item do dicionário
 		if(tabela->celula == NULL){ 										//se estiver vazio, a célula será desalocada, esse caso se dá por correção de erro na inserção de algum valor
 			free(tabela); 													//desalocando a memória
 			return NULL; 													//retornando NULL
 		}
 		tabela->quantidade = 0; 											//setando a quantidade de itens como 0, pois a tabela está sendo inicializada
-	for(int i = 0; i < tam; i++){
+	for(int i = 0; i < TAM; i++){
 		tabela->celula[i] = NULL; 											//inicializando a tabela com NULL em todas as células
 	}
 	}
@@ -45,20 +43,20 @@ int calculaPos(int chave, int tam){ //função que faz o calculo da posição em
 	return chave % tam; 			//a posição se dará de acordo com o valor do resto da divisão da chave pelo tamanho da tabela
 }
 
-int tratamentoDuploHash(int hash1, int chave, int tam, int indice){ //função para tratamento de colisão através de um duplo HASH
-	int hash2 = calculaPos(chave, tam/2) + 1;						//hash2 = (chave % (tam_lista/2)) + 1
-	return (hash1 + (indice * hash2)) % tam; 						//retornando o valor da posição da chave através do cálculo entre hash1 + (indice em que a chave se encontra no momento * hash2) % tamanho da tabela HASH
+int tratamentoDuploHash(int hash1, int chave, int indice, int tam){ //função para tratamento de colisão através de um duplo HASH
+	return ((hash1 + indice) + 11) % tam; 						//retornando o valor da posição da chave 
 }
 
 int insere_hash(Hash* tabela, dicionario* d, int chave){ //função para inserir chaves na tabela HASH
 	int posicao, novaPosicao; 							 //variaveis de suporte para funções de hashing (gerar as posições em casos de colisão)
 	posicao = calculaPos(chave, tabela->tam_tabela); 	 //posição recebe o primeiro tratamento de colisão chave % tamanho da tabela
+	int i = 0;
 	
 	if(tabela == NULL){ 														//se a tabela estiver vazia
 		printf("\n");
 		printf("Tabela vazia!\n");
 		printf("\n");
-		return 0; 																//retornando que falhou a inserção
+		return 0; 																//retornando que não houve inserção
 	}else if(tabela->quantidade == tabela->tam_tabela){ 						//se a tabela estiver cheia
 		printf("\n");
 		printf("A tabela esta cheia!\n");
@@ -70,8 +68,8 @@ int insere_hash(Hash* tabela, dicionario* d, int chave){ //função para inserir
 		printf("\n");
 		return 0; 																//retorna falha na inserção
 	}
-	for(int i = 0; i < tabela->tam_tabela; i++){ 
-		novaPosicao = tratamentoDuploHash(posicao, chave, tabela->tam_tabela, i); //novaPosicao recebe o retorno da segunda função de tratamento de colisão tratamentoDuploHash
+	while(i < tabela->tam_tabela){ 
+		novaPosicao = tratamentoDuploHash(posicao, chave, i, tabela->tam_tabela); //novaPosicao recebe o retorno da segunda função de tratamento de colisão tratamentoDuploHash
 		if(tabela->celula[novaPosicao] == NULL){ 								  //se a nova posição estiver vazia
 			dicionario* novaCelula;  											  //declarando uma auxiliar do tipo dicionario
 			novaCelula = (dicionario*) malloc(sizeof(dicionario)); 				  //alocando espaço de memoria para um apontador do tipo dicionario
@@ -90,6 +88,7 @@ int insere_hash(Hash* tabela, dicionario* d, int chave){ //função para inserir
 				return 1; 														  //retornando êxito na inserção
 			}
 		}
+		i++;
 	}
 	return 0; 																	  //caso faça o loop até que o tamanho da tabela e não consiga inserir, retorna que falhou
 }
@@ -106,7 +105,7 @@ int busca_hash(Hash* tabela, int chave, dicionario* d){ 						  //função para 
 	}
 	
 	for(int i = 0; i < tabela->tam_tabela; i++){
-		novaPosicao = tratamentoDuploHash(posicao, chave, tabela->tam_tabela, i); //novaPosicao recebe o retorno da segunda função de tratamento de colisão tratamentoDuploHash
+		novaPosicao = tratamentoDuploHash(posicao, chave, i, tabela->tam_tabela); //novaPosicao recebe o retorno da segunda função de tratamento de colisão tratamentoDuploHash
 		if(tabela->celula[novaPosicao] == NULL){ 								  //caso não haja nada na posição o item não foi encontrado
 			printf("\n");
 			printf("Item nao foi encontrado!\n"); 
@@ -114,7 +113,9 @@ int busca_hash(Hash* tabela, int chave, dicionario* d){ 						  //função para 
 			return 0; 															  //retornando falha na busca
 		}
 		if(tabela->celula[novaPosicao]->chave == chave){ 						  //caso tenha algo na posição e as chaves sejam iguais
-			*d = *(tabela->celula[novaPosicao]); 		 						  //o apontador d do tipo dicionario apontará para a posição em que se encontra a chave
+			dicionario *aux;													  //declarando uma auxiliar do tipo dicionario
+			aux = malloc(sizeof(dicionario));									  //alocando espaço de memoria para um tipo dicionario
+			aux = tabela->celula[novaPosicao]; 		 						      //o apontador aux do tipo dicionario apontará para a posição em que se encontra a chave
 			printf("\n");
 			printf("|CHAVE ENCONTRADA\n");
 			printf("|CHAVE: %d       \n", tabela->celula[novaPosicao]->chave);
@@ -135,7 +136,7 @@ int buscaI_hash(Hash* tabela, int chave, dicionario* d){ 						  //função para
 		return 0;    															  //retornando falha na busca
 	
 	for(int i = 0; i < tabela->tam_tabela; i++){
-		novaPosicao = tratamentoDuploHash(posicao, chave, tabela->tam_tabela, i); //novaPosicao recebe o retorno da segunda função de tratamento de colisão tratamentoDuploHash
+		novaPosicao = tratamentoDuploHash(posicao, chave, i, tabela->tam_tabela); //novaPosicao recebe o retorno da segunda função de tratamento de colisão tratamentoDuploHash
 		if(tabela->celula[novaPosicao] == NULL) 
 			return 0; 															  //retornando falha na busca
 		if(tabela->celula[novaPosicao]->chave == chave)
@@ -162,7 +163,7 @@ void retira_hash(Hash* tabela, int chave, dicionario* d){							  //função par
 	}		
 	else{
 		for(int i = 0; i < tabela->tam_tabela; i++){
-			novaPosicao = tratamentoDuploHash(posicao, chave, tabela->tam_tabela, i); //novaPosicao recebe o retorno da segunda função de tratamento de colisão tratamentoDuploHash
+			novaPosicao = tratamentoDuploHash(posicao, chave, i, tabela->tam_tabela); //novaPosicao recebe o retorno da segunda função de tratamento de colisão tratamentoDuploHash
 			if(tabela->celula[novaPosicao]->chave == chave){						  //se a chave pesquisada for igual a chave na posição, ela será removida					
 				free(tabela->celula[novaPosicao]);									  //desalocando a memória utilizada para armazenar a chave
 				tabela->quantidade--;												  //decrementando a quantidade de itens na tabela
