@@ -12,16 +12,16 @@
 
 //Structs que compõe o TAD
 
-typedef struct{ //struct para armazenar os itens do tipo dicionario 
+typedef struct{     //struct para armazenar os itens do tipo dicionario 
 	int chave;  //chave de cada célula da struct dicionário
 	int indice; //variavel para guardar o valor do indice em que a chave se encontra
 }dicionario;
 
-typedef struct{			 //struct para armazenar os valores do tipo hash
-	int quantidade; 	 //variavel para armazenar a quantidade de itens na tabela
-	int tam_tabela; 	 //variavel para armazenar o tamanho da tabela
-	dicionario **celula; //apontador para um apontador do tipo dicionario
-}Hash;					 //cada um desses será uma célula do nosso dicionario
+typedef struct{		    //struct para armazenar os valores do tipo hash
+	int quantidade;     //variavel para armazenar a quantidade de itens na tabela
+	int tam_tabela;     //variavel para armazenar o tamanho da tabela
+	dicionario **celula;//apontador para um apontador do tipo dicionario
+}Hash;			    //cada um desses será uma célula do nosso dicionario
 
 //Declarações de funções utilizadas
 
