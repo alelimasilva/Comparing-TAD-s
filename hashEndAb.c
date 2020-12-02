@@ -23,7 +23,6 @@ Hash* inicializa_hash(int tam){ 				      //função para inicializar uma tabela
 		tabela->celula[i] = NULL; 					    //inicializando a tabela com NULL em todas as células
 	}
 	}
-	printf("Tabela Hash inicializada!\n");
 	return tabela;								    //retornando a tabela, pois a função pede um retorno a um ponteiro do tipo estrutura Hash
 }
 
