@@ -2,15 +2,7 @@
 #include<stdlib.h> //biblioteca para utilização do malloc
 #include "hashLiEnc.h"  //incluindo arquivo cabeçalho com declarações de funções e estruturas de dados
 
-void limpaTela(){ 		 //Limpa o terminal para melhorar a aparencia do programa
-	#ifdef OS_Windows
-		system("cls");   //Caso seja Windows
-	#else
-		system("clear"); //Caso seja Linux
-	#endif 
-}	
-
-void inicializa_hash(No **hash, int tam){
+void inicializahash(No **hash, int tam){
 	for(int i=0; i<tam; i++) hash[i]=NULL;		 
 }
 
@@ -18,7 +10,7 @@ int calcula_posicao(unsigned int chave, int tam){ // calcula a posição da hash
 	return chave % tam;
 }
 
-void insere_hash(unsigned int chave, No **hash, int tam){
+void inserehash(unsigned int chave, No **hash, int tam){
 	int posicao = calcula_posicao(chave, tam); // calcula a posição para ser inserido
 	if (hash[posicao]!=NULL) { // se ocorreu colisao
 		if (buscalista(chave,hash,tam)){ // verificando se a chave ja existe
@@ -94,6 +86,7 @@ void apaga_hash(unsigned int chave, No **hash, int tam) {
 			free(*lista); // libera a lista
 			hash[posicao]=guarda;
 		}
+		printf("Chave: %d removida.\n", chave);
 		return;
  	} // fim laço encontrou o chave		
 	ant = *lista;
