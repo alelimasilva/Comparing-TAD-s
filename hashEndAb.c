@@ -165,7 +165,7 @@ void retira_hash(Hash* tabela, int chave, dicionario* d){				  //função para r
 		for(int i = 0; i < tabela->tam_tabela; i++){
 			novaPosicao = tratamentoDuploHash(posicao, chave, i, tabela->tam_tabela); //novaPosicao recebe o retorno da segunda função de tratamento de colisão tratamentoDuploHash
 			if(tabela->celula[novaPosicao]->chave == chave){			  //se a chave pesquisada for igual a chave na posição, ela será removida					
-				tabela->celula[novaPosicao] = NULL;				  //desalocando a memória utilizada para armazenar a chave
+				tabela->celula[novaPosicao] = NULL;				  //a posição em que se encontra a chave apontará para NULL para ficar disponível para uma nova inserção
 				tabela->quantidade--;						  //decrementando a quantidade de itens na tabela
 				printf("\n");
 				printf("|CHAVE REMOVIDA!\n");
