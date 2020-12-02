@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-//#include <sys/time.h>
+#include <sys/time.h>
 #include "hashLiEnc.h" 
 #include "hashEndAb.h" 
 #include "arvore.h" 
@@ -29,6 +29,8 @@ int main(){
 		No *hash[tam];
 		inicializahash(hash, tam);
 		int vetor[tam];
+        Arvore a;
+        inicializar(&a);
 
 		printf("1| Arvore binaria nao balanceada\n");
 		printf("2| Hash com enderecamento aberto\n");
@@ -46,45 +48,70 @@ int main(){
 			fscanf(arquivo, "%d\n", &vetor[i]);
 	}
 
-		//struct timeval utime;
-    	//double tInicio_I, tFim_I; // variaveis de tempo de inserçao
-    	//double tInicio_R, tFim_R; // variaveis de tempo de remoçao
-    	//double tInicio_B, tFim_B; // variaveis de tempo de busca
+		struct timeval utime;
+    	double tInicio_I, tFim_I; // variaveis de tempo de inserçao
+    	double tInicio_R, tFim_R; // variaveis de tempo de remoçao
+    	double tInicio_B, tFim_B; // variaveis de tempo de busca
+
 		if(escolha2 == 1){
 			// funçoes arvore
-			printf("oi");
+			gettimeofday(&utime, NULL);
+            tInicio_I = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
+            for(int i = 0; i < tam; i++){
+			inserir(vetor[i], &a);
+            }
+            gettimeofday(&utime, NULL);
+			tFim_I = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
+			//---------------------------------------------------------
+			gettimeofday(&utime, NULL);
+			tInicio_B = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
+            pesquisar(vetor[tam/2], a);
+            gettimeofday(&utime, NULL);
+			tFim_B = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
+			//---------------------------------------------------------
+			gettimeofday(&utime, NULL);
+			tInicio_R = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
+            for(int i = 0; i < tam; i++){
+			retirar(vetor[i], &a);
+            }
+            gettimeofday(&utime, NULL);
+			tFim_R = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
+            
+			printf("%.6lf - Tempo percorrido para insercao.\n", tFim_I - tInicio_I);
+			printf("%.6lf - Tempo percorrido para busca.\n", tFim_B - tInicio_B);
+			printf("%.6lf - Tempo percorrido para remocao.\n", tFim_R - tInicio_R);
+
 		}
 		if(escolha2 == 2){
 			// funçoes hash end aberto
 			printf("oi");
 		}
 		if(escolha2 == 3){
-			//gettimeofday(&utime, NULL);
-			//tInicio_I = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
+			gettimeofday(&utime, NULL);
+			tInicio_I = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
     		for(int i=0;i<tam;i++){
         		inserehash(i, hash, tam);
    			}
-			//gettimeofday(&utime, NULL);
-			//tFim_I = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
-
-			//gettimeofday(&utime, NULL);
-			//tInicio_B = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
+			gettimeofday(&utime, NULL);
+			tFim_I = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
+			//---------------------------------------------------------
+			gettimeofday(&utime, NULL);
+			tInicio_B = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
 			if(buscalista(50, hash, tam) == 1) printf("Valor encontrado!\n");
 			else printf("Valor nao encontrado!\n");
-			//gettimeofday(&utime, NULL);
-			//tFim_B = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
-
-			//gettimeofday(&utime, NULL);
-			//tInicio_R = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
+			gettimeofday(&utime, NULL);
+			tFim_B = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
+			//---------------------------------------------------------
+			gettimeofday(&utime, NULL);
+			tInicio_R = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
     		for(int i=0;i<tam;i++){
         		apaga_hash(i, hash, tam);
    			}
-			//gettimeofday(&utime, NULL);
-			//tFim_R = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
-
-			//printf("%.3f - Tempo percorrido para insercao.\n", tFim_I - tInicio_I);
-			//printf("%.3f - Tempo percorrido para busca.\n", tFim_B - tInicio_B);
-			//printf("%.3f - Tempo percorrido para remocao.\n", tFim_R - tInicio_R);
+			gettimeofday(&utime, NULL);
+			tFim_R = utime.tv_sec + ( utime.tv_usec / 1000000.0 );
+			printf("%.3f - Tempo percorrido para insercao.\n", tFim_I - tInicio_I);
+			printf("%.3f - Tempo percorrido para busca.\n", tFim_B - tInicio_B);
+			printf("%.3f - Tempo percorrido para remocao.\n", tFim_R - tInicio_R);
 
 
 		}
