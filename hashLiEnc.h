@@ -11,9 +11,8 @@ struct registro{
 };
 typedef struct registro No;
 
-void limpaTela();//Limpa o terminal para melhorar a aparencia do programa
-void inicializa_hash(No **hash, int tam); // inicializa a hash
+void inicializahash(No **hash, int tam); // inicializa a hash
 int calcula_posicao(unsigned int chave, int tam); // calcula a posição da hash
 int buscalista(unsigned int chave, No **hash, int tam); // busca um dado em uma lista encadeada
-void insere_hash(unsigned int chave, No **hash, int tam); // verifica se pode ser inserido, se sim insere a chave na hash
+void inserehash(unsigned int chave, No **hash, int tam); // verifica se pode ser inserido, se sim insere a chave na hash
 void apaga_hash(unsigned int chave, No **hash, int tam); // apaga uma chave da hash
